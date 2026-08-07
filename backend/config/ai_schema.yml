@@ -1,0 +1,20 @@
+event_schemas:
+  # Process Create / Terminate / Access
+  1: ["Image", "CommandLine", "ParentImage"]
+  5: ["Image"]
+  10: ["SourceImage", "TargetImage"]
+  
+  # Network Connection
+  3: ["Image", "DestinationIp", "DestinationPort", "Protocol"]
+  
+  # File Creation / Deletion
+  11: ["Image", "TargetFilename"]
+  23: ["Image", "TargetFilename"]
+  
+  # Registry Modifications
+  12: ["Image", "TargetObject", "EventType"]
+  13: ["Image", "TargetObject", "EventType"]
+  14: ["Image", "TargetObject", "NewName", "EventType"]
+  
+  # DNS Query
+  22: ["Image", "QueryName"]

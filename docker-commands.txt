@@ -1,0 +1,60 @@
+==========================================
+Eyxa Docker Helper Commands
+==========================================
+
+Here are the helpful commands for managing your Eyxa Docker environment:
+
+1. Manually fetch the newest Cloudflare URL:
+docker logs eyxa-tunnel 2>&1 | grep -o 'https://[a-zA-Z0-9-]*\.trycloudflare\.com' | tail -n 1
+
+2. View the full, raw logs of the Cloudflare tunnel (to debug connections):
+docker logs eyxa-tunnel
+
+3. Watch the logs live in real-time (Press Ctrl+C to exit):
+docker logs -f eyxa-tunnel
+
+4. Restart the tunnel (will generate a new URL):
+docker restart eyxa-tunnel
+
+
+==========================================
+Troubleshooting & Reset Commands
+==========================================
+
+5. See the status of all your Eyxa containers (Are they running?):
+docker-compose ps
+
+6. Stop all containers completely:
+docker-compose down
+
+7. Rebuild everything from scratch (fixes weird caching issues):
+docker-compose build --no-cache
+docker-compose up -d
+
+8. Hard Reset: Wipe the database and start fresh (WARNING: Deletes all telemetry!):
+docker-compose down -v
+docker-compose up -d --build
+
+9. Shell into the Eyxa Backend Container (to run scripts or check files manually):
+docker exec -it eyxa-edr /bin/bash
+
+10. View logs for the Eyxa Backend (to debug Python/FastAPI errors):
+docker logs eyxa-edr
+
+11. Nuke Everything (Extreme Option): If Docker is completely broken or out of space, this deletes ALL unused containers, networks, images, and volumes.
+docker system prune -a --volumes
+
+
+==========================================
+Database Commands (SQLite)
+==========================================
+
+12. Check how many rows are in the events table:
+docker exec -it eyxa-edr sqlite3 /app/backend/db/eyxa.db "SELECT COUNT(*) FROM events;"
+
+13. Open the interactive SQLite shell to run custom queries:
+docker exec -it eyxa-edr sqlite3 /app/backend/db/eyxa.db
+# (Type .tables to see tables, .schema to see structure, and .quit to exit)
+
+14. Completely clear the events table manually (without deleting the database file):
+docker exec -it eyxa-edr sqlite3 /app/backend/db/eyxa.db "DELETE FROM events;"

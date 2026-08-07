@@ -1,0 +1,54 @@
+# Source: https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_susp_service_creation.yml
+# Copied verbatim from SigmaHQ. status: test, level: high.
+# Phase G justification: No stable rule for T1543.003. This test/high rule is more precise than
+# the generic sc_create_service.yml (test/low) because it requires a suspicious binPath
+# (interpreter binary or user-writable path) co-occurring with service creation.
+title: Suspicious New Service Creation
+id: 17a1be64-8d88-40bf-b5ff-a4f7a50ebcc8
+status: test
+description: Detects creation of a new service via "sc" command or the powershell "new-service" cmdlet with suspicious binary paths
+references:
+    - https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1543.003/T1543.003.md
+author: Nasreddine Bencherchali (Nextron Systems)
+date: 2022-07-14
+modified: 2022-11-18
+tags:
+    - attack.persistence
+    - attack.privilege-escalation
+    - attack.t1543.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_sc:
+        Image|endswith: '\sc.exe'
+        CommandLine|contains|all:
+            - 'create'
+            - 'binPath='
+    selection_posh:
+        CommandLine|contains|all:
+            - 'New-Service'
+            - '-BinaryPathName'
+    susp_binpath:
+        CommandLine|contains:
+            - 'powershell'
+            - 'mshta'
+            - 'wscript'
+            - 'cscript'
+            - 'svchost'
+            - 'dllhost'
+            - 'cmd '
+            - 'cmd.exe /c'
+            - 'cmd.exe /k'
+            - 'cmd.exe /r'
+            - 'rundll32'
+            - 'C:\Users\Public'
+            - '\Downloads\'
+            - '\Desktop\'
+            - '\Microsoft\Windows\Start Menu\Programs\Startup\'
+            - 'C:\Windows\TEMP\'
+            - '\AppData\Local\Temp'
+    condition: 1 of selection* and susp_binpath
+falsepositives:
+    - Unlikely
+level: high

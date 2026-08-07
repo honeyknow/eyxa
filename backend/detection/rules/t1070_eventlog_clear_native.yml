@@ -1,0 +1,17 @@
+title: Native Windows Audit Log Cleared (EID 1102)
+id: 59371e7d-13a4-4f0f-8c34-eb163ff2f597
+status: stable
+description: Detects when the Windows Security audit log is cleared. Caught natively by the Eyxa Agent via EID 1102.
+author: Eyxa
+date: 2026-07-29
+tags:
+    - attack.defense-evasion
+    - attack.t1070.001
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 1102
+    condition: selection
+level: high

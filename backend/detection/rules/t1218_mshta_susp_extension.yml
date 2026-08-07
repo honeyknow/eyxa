@@ -1,0 +1,68 @@
+# Source: https://github.com/SigmaHQ/sigma/blob/master/rules/windows/process_creation/proc_creation_win_mshta_susp_execution.yml
+# Copied verbatim from SigmaHQ. status: test, level: high.
+# Phase G justification: No stable rule for T1218.005. This test/high rule detects mshta
+# executing files with non-HTA extensions (polyglot technique) - high precision.
+title: MSHTA Execution with Suspicious File Extensions
+id: cc7abbd0-762b-41e3-8a26-57ad50d2eea3
+status: test
+description: |
+    Detects execution of mshta.exe with file types that looks like they do not typically represent HTA content,
+    such as .png, .jpg, .zip, .pdf, and others, which are often polyglots. Threat actors abuse mshta
+    to download and execute malicious scripts disguised as benign files.
+references:
+    - http://blog.sevagas.com/?Hacking-around-HTA-files
+    - https://learn.microsoft.com/en-us/previous-versions/dotnet/framework/data/xml/xslt/xslt-stylesheet-scripting-using-msxsl-script
+author: Diego Perez (@darkquassar), Markus Neis, Swisscom, Swachchhanda Shrawan Poudel (Nextron Systems)
+date: 2019-02-22
+modified: 2025-05-12
+tags:
+    - attack.defense-evasion
+    - attack.execution
+    - attack.t1218.005
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith: '\mshta.exe'
+        - OriginalFileName: 'mshta.exe'
+    selection_cli:
+        CommandLine|contains:
+            - '.7z'
+            - '.avi'
+            - '.bat'
+            - '.bmp'
+            - '.conf'
+            - '.csv'
+            - '.dll'
+            - '.doc'
+            - '.gif'
+            - '.gz'
+            - '.ini'
+            - '.jpe'
+            - '.jpg'
+            - '.json'
+            - '.lnk'
+            - '.log'
+            - '.mkv'
+            - '.mp3'
+            - '.mp4'
+            - '.pdf'
+            - '.png'
+            - '.ppt'
+            - '.rar'
+            - '.rtf'
+            - '.svg'
+            - '.tar'
+            - '.tmp'
+            - '.txt'
+            - '.xls'
+            - '.xml'
+            - '.yaml'
+            - '.yml'
+            - '.zip'
+            - 'vbscript'
+    condition: all of selection_*
+falsepositives:
+    - False positives depend on scripts and administrative tools used in the monitored environment
+level: high

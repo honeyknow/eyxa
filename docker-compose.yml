@@ -1,0 +1,25 @@
+services:
+  eyxa:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: eyxa-edr
+    ports:
+      - "8443:8443"
+    volumes:
+      # Named volume - persists the SQLite database across container restarts.
+      # init_db() creates eyxa.db on first boot if it does not exist.
+      - eyxa_db:/app/backend/db
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: eyxa-tunnel
+    command: tunnel --url http://eyxa:8443
+    depends_on:
+      - eyxa
+    restart: unless-stopped
+
+volumes:
+  eyxa_db:
+    name: eyxa_db

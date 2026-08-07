@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Eyxa Phase H telemetry configuration.
+  Controls only which Sysmon Event IDs are enabled - no process/path-based include/exclude conditions.
+-->
+<Sysmon schemaversion="4.91">
+  <EventFiltering>
+    <ProcessCreate onmatch="exclude" />
+    <CreateRemoteThread onmatch="exclude" />
+    <RegistryEvent onmatch="exclude" />
+    <ProcessTampering onmatch="exclude" />
+    <DnsQuery onmatch="exclude" />
+  </EventFiltering>
+</Sysmon>

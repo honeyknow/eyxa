@@ -1,0 +1,37 @@
+# Eyxa Docker - build context exclusions
+# Keeps image builds fast by excluding large/unnecessary paths
+
+# Node build artifacts (rebuilt inside Docker)
+dashboard/node_modules/
+
+# Python caches (rebuilt inside Docker)
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.pyc
+
+# Existing database - fresh DB is created at runtime via init_db()
+backend/db/eyxa.db
+backend/db/eyxa.db-wal
+backend/db/eyxa.db-shm
+
+# Existing static build (rebuilt inside Docker from source)
+backend/static/
+
+# Agent source - not needed by the backend container
+agent/
+
+# Installer files - not needed
+installer/
+
+# Garbage and temp folders
+garbage/
+garbage-mega/
+scratch/
+*.zip
+
+# Docs
+docs/
+
+# Git
+.git/
+.gitignore

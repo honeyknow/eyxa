@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Eyxa channel subscription config - Eyxa-defined schema (NOT a Sysmon schema).
+  Controls which non-Sysmon Windows Event Log channels and Event IDs the agent
+  subscribes to via EvtSubscribe. Parsed by channel_reader.c at startup.
+
+  To add a new technique's telemetry: edit this file, restart the agent.
+  Zero code changes, zero recompilation required.
+
+  Schema rules:
+    - Root element: <EyxaConfig>
+    - Children: <Channel name="..."> elements (one EvtSubscribe call each)
+    - Grandchildren: <EventID>N</EventID> - one per Event ID to subscribe to
+    - Multiple <EventID> children are OR'd into a single XPath query
+    - The Sysmon channel is NOT listed here; it is handled by sysmon_reader.c
+
+  Sources:
+    Channel names verified via wevtutil el (Windows Event Log API):
+      https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log
+    Event IDs verified against official Microsoft documentation per technique.
+-->
+<EyxaConfig>
+
+  <!--
+    T1070.001 - Indicator Removal: Clear Windows Event Logs
+    EID 1102: "The audit log was cleared."
+    Source: https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1102
+
+    T1053.005 - Scheduled Task: also observable here (EID 4698)
+    EID 4698: "A scheduled task was created."
+    Source: https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4698
+  -->
+  <Channel name="Security">
+    <EventID>1102</EventID>
+    <EventID>4698</EventID>
+  </Channel>
+
+  <!--
+    T1059.001 - Script Block Logging (complements AMSI)
+    EID 4104: PowerShell script block logging.
+    Source: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows
+  -->
+  <Channel name="Microsoft-Windows-PowerShell/Operational">
+    <EventID>4104</EventID>
+  </Channel>
+
+  <!--
+    T1562.001 / T1685 - Defender Real-Time Protection disabled
+    EID 5001: "Microsoft Defender Antivirus real-time protection is disabled."
+    Source: https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/troubleshoot-microsoft-defender-antivirus?view=o365-worldwide
+  -->
+  <Channel name="Microsoft-Windows-Windows Defender/Operational">
+    <EventID>5001</EventID>
+  </Channel>
+
+</EyxaConfig>

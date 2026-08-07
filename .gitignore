@@ -1,0 +1,55 @@
+# ==========================================
+# Eyxa EDR - Master .gitignore
+# ==========================================
+
+# 1. Node.js & Javascript Dependencies
+node_modules/
+dashboard/node_modules/
+npm-debug.log
+yarn-error.log
+
+# 2. Python Caches & Artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# 3. Virtual Environments
+.env
+.venv/
+venv/
+env/
+
+# 4. Database Files (Do not upload live EDR data)
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+backend/db/eyxa.db
+backend/db/eyxa.db-wal
+backend/db/eyxa.db-shm
+
+# 5. Compiled Build Outputs
+backend/static/
+dashboard/dist/
+dashboard/build/
+*.exe
+*.obj
+*.o
+*.dll
+
+# 6. IDE / OS Specific Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# 7. Eyxa Specific Project Folders (Temporary Data)
+garbage/
+garbage-mega/
+scratch/
+
+# Note: The 'installer/' directory is deliberately NOT ignored 
+# because it needs to be uploaded as-is for fresh deployments.
