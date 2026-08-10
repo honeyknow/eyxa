@@ -181,7 +181,7 @@ export default function AdminPanel() {
               </span>
             </div>
             <h1 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.5px' }}>
-              Deep Control Plane
+              
             </h1>
           </div>
           <button 
@@ -279,7 +279,7 @@ export default function AdminPanel() {
                   {u.email}
                   {u.role === 'admin' && <span style={{ background: 'var(--accent)', color: '#000', fontSize: 10, padding: '2px 6px', borderRadius: 4, fontWeight: 800 }}>ADMIN</span>}
                 </div>
-                <div style={{ fontSize: 12, color: 'var(--text-3)', marginTop: 4 }}>ID: {u.id} · Joined: {u.added_at}</div>
+                <div style={{ fontSize: 12, color: 'var(--text-3)', marginTop: 4 }}>ID: {u.id} · Joined: {new Date(u.added_at).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}</div>
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
                 <button

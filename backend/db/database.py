@@ -99,6 +99,11 @@ def init_db() -> None:
     conn = get_connection()
     try:
         conn.executescript(schema)
+        _migrate_logs_view(conn)
+        # Migrate: add ai_custom_prompt column if not present
+        cols = [row[1] for row in conn.execute("PRAGMA table_info(users)").fetchall()]
+        if "ai_custom_prompt" not in cols:
+            conn.execute("ALTER TABLE users ADD COLUMN ai_custom_prompt TEXT")
         conn.commit()
         
         # Auto-migrate rules table to include uploaded_by
@@ -153,8 +158,8 @@ def get_ai_config(user_id: int) -> dict:
     try:
         row = conn.execute("SELECT groq_api_key, ai_model FROM users WHERE id = ?", (user_id,)).fetchone()
         if row:
-            return {"api_key": row["groq_api_key"] or "", "model_id": row["ai_model"] or "llama-3.3-70b-versatile"}
-        return {"api_key": "", "model_id": "llama-3.3-70b-versatile"}
+            return {"api_key": row["groq_api_key"] or "", "model_id": row["ai_model"] or "openai/gpt-oss-120b"}
+        return {"api_key": "", "model_id": "openai/gpt-oss-120b"}
     finally:
         conn.close()
 
@@ -162,6 +167,24 @@ def set_ai_config(user_id: int, api_key: str, model_id: str) -> None:
     conn = get_connection()
     try:
         conn.execute("UPDATE users SET groq_api_key = ?, ai_model = ? WHERE id = ?", (api_key, model_id, user_id))
+        conn.commit()
+    finally:
+        conn.close()
+
+def get_ai_prompt(user_id: int) -> str | None:
+    """Returns the user's custom system prompt, or None if they haven't set one."""
+    conn = get_connection()
+    try:
+        row = conn.execute("SELECT ai_custom_prompt FROM users WHERE id = ?", (user_id,)).fetchone()
+        return row["ai_custom_prompt"] if row else None
+    finally:
+        conn.close()
+
+def set_ai_prompt(user_id: int, prompt: str | None) -> None:
+    """Saves (or clears) the user's custom system prompt."""
+    conn = get_connection()
+    try:
+        conn.execute("UPDATE users SET ai_custom_prompt = ? WHERE id = ?", (prompt, user_id))
         conn.commit()
     finally:
         conn.close()

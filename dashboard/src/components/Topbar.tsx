@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Database, Download } from 'lucide-react'
+import { Database, Download, ShieldAlert } from 'lucide-react'
 import { useDashboard } from '../context/DashboardContext'
 import AccountMenu from './AccountMenu'
 import AgentInstallModal from './AgentInstallModal'
@@ -41,7 +41,17 @@ export default function Topbar({ user, onSignOut, isAdmin }: Props) {
   const navigate  = useNavigate()
   const location  = useLocation()
   const [showInstall, setShowInstall] = useState(false)
+  const [isGlitching, setGlitching] = useState(false)
   const { stats, health } = useDashboard()
+
+  // Auto-glitch every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGlitching(true)
+      setTimeout(() => setGlitching(false), 800) // Glitch lasts 800ms
+    }, 10000)
+    return () => clearInterval(interval)
+  }, [])
 
   const rc = stats?.row_counts ?? {}
   const totalEvents = rc.events ?? 0
@@ -49,28 +59,109 @@ export default function Topbar({ user, onSignOut, isAdmin }: Props) {
 
   return (
     <div className="topbar">
+      <style>{`
+        .glitch-wrapper {
+          position: relative;
+          display: flex;
+          align-items: center;
+          user-select: none;
+          font-family: 'Inter', sans-serif;
+          font-size: 20px;
+          font-weight: 900;
+          letter-spacing: 5px;
+          cursor: pointer;
+          color: #f8fafc;
+        }
+
+        .glitch-part {
+          position: relative;
+          display: inline-block;
+        }
+
+        .glitch-wrapper:hover .glitch-part::before,
+        .glitch-wrapper:hover .glitch-part::after,
+        .is-glitching .glitch-part::before,
+        .is-glitching .glitch-part::after {
+          content: attr(data-text);
+          position: absolute;
+          top: 0;
+          left: 0;
+          opacity: 0.9;
+        }
+
+        .glitch-wrapper:hover .glitch-part::before,
+        .is-glitching .glitch-part::before {
+          left: 2px;
+          text-shadow: -2px 0 #00ffff;
+          color: #f8fafc;
+          background: var(--bg);
+          clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+          animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+
+        .glitch-wrapper:hover .glitch-part::after,
+        .is-glitching .glitch-part::after {
+          left: -2px;
+          text-shadow: -2px 0 #ef4444;
+          color: #f8fafc;
+          background: var(--bg);
+          clip-path: polygon(0 80%, 100% 20%, 100% 100%, 0 100%);
+          animation: glitch-anim-2 2.5s infinite linear alternate-reverse;
+        }
+        
+        .eyxa-x {
+          color: #ef4444;
+          text-shadow: 0 0 16px rgba(239,68,68,0.8);
+          animation: flicker 5s infinite;
+        }
+
+        .glitch-wrapper:hover .eyxa-x::before,
+        .glitch-wrapper:hover .eyxa-x::after,
+        .is-glitching .eyxa-x::before,
+        .is-glitching .eyxa-x::after {
+          color: #ef4444;
+        }
+
+        @keyframes glitch-anim-1 {
+          0% { clip-path: polygon(0 12%, 100% 12%, 100% 15%, 0 15%); }
+          20% { clip-path: polygon(0 45%, 100% 45%, 100% 50%, 0 50%); }
+          40% { clip-path: polygon(0 20%, 100% 20%, 100% 30%, 0 30%); }
+          60% { clip-path: polygon(0 60%, 100% 60%, 100% 65%, 0 65%); }
+          80% { clip-path: polygon(0 80%, 100% 80%, 100% 85%, 0 85%); }
+          100% { clip-path: polygon(0 5%, 100% 5%, 100% 10%, 0 10%); }
+        }
+
+        @keyframes glitch-anim-2 {
+          0% { clip-path: polygon(0 82%, 100% 82%, 100% 85%, 0 85%); }
+          20% { clip-path: polygon(0 5%, 100% 5%, 100% 10%, 0 10%); }
+          40% { clip-path: polygon(0 60%, 100% 60%, 100% 70%, 0 70%); }
+          60% { clip-path: polygon(0 40%, 100% 40%, 100% 45%, 0 45%); }
+          80% { clip-path: polygon(0 20%, 100% 20%, 100% 25%, 0 25%); }
+          100% { clip-path: polygon(0 95%, 100% 95%, 100% 100%, 0 100%); }
+        }
+
+        @keyframes flicker {
+          0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+            opacity: 1;
+            text-shadow: 0 0 16px rgba(239,68,68,0.8);
+          }
+          20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+            opacity: 0.5;
+            text-shadow: none;
+          }
+        }
+      `}</style>
+
       {/* Brand */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: 8,
         paddingRight: 20, borderRight: '1px solid rgba(255,255,255,0.06)', marginRight: 4,
         flexShrink: 0,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', userSelect: 'none', fontStyle: 'italic', fontFamily: "'JetBrains Mono', monospace" }}>
-          <span style={{ fontSize: 20, fontWeight: 900, letterSpacing: '6px', color: '#f8fafc' }}>
-            EY
-          </span>
-          <span style={{ 
-            fontSize: 20, 
-            fontWeight: 900, 
-            letterSpacing: '6px',
-            color: '#ef4444', 
-            textShadow: '0 0 16px rgba(239,68,68,0.8)'
-          }}>
-            X
-          </span>
-          <span style={{ fontSize: 20, fontWeight: 900, letterSpacing: '6px', color: '#f8fafc' }}>
-            A
-          </span>
+        <div className={`glitch-wrapper ${isGlitching ? 'is-glitching' : ''}`} onClick={() => navigate('/')}>
+          <span className="glitch-part" data-text="EY">EY</span>
+          <span className="glitch-part eyxa-x" data-text="X">X</span>
+          <span className="glitch-part" data-text="A">A</span>
         </div>
       </div>
 

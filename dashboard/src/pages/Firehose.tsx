@@ -523,7 +523,7 @@ export default function Firehose() {
               <div className="empty-state">
                 <Terminal size={36} />
                 <h3>No events in stream</h3>
-                <p>{selectedTypes.size === 0 ? 'All event types unchecked - select some in the left panel.' : 'Waiting for telemetry from connected hosts.'}</p>
+                <p>{selectedTypes.size === 0 ? '' : 'Waiting for telemetry from connected hosts.'}</p>
               </div>
             ) : (
               <Virtuoso

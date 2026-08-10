@@ -26,7 +26,7 @@ Eyxa is a comprehensive, full-stack Endpoint Detection and Response (EDR) platfo
 - **Real-Time Telemetry:** Continuous streams of process creations, network connections, and file modifications pushed instantly to the backend.
 - **Sigma Rule Engine:** Native integration with [Sigma](https://github.com/SigmaHQ/sigma) for writing and evaluating powerful threat detection rules against live telemetry.
 - **Live Response Capabilities:** Establish persistent WebSocket connections to endpoints to execute immediate response actions (e.g., kill processes, run commands).
-- **Omniscient AI Analysis:** Built-in LLM integrations (powered by Groq) to instantly summarize alerts and calculate the "blast radius" of compromised processes.
+- **AI Assistant Analysis:** Built-in LLM integrations (powered by Groq) to instantly summarize alerts and calculate the "blast radius" of compromised processes.
 - **Effortless Deployment:** Completely dockerized infrastructure with automated Cloudflare tunnel provisioning.
 
 ---
@@ -114,7 +114,7 @@ eyxa/
 
 ## 🛠️ Troubleshooting & Commands
 
-For advanced troubleshooting, database interaction, or container management, please refer to the `docker-commands.txt` file included in the root directory. It contains a curated list of useful administrative commands.
+For AI Assistant troubleshooting, database interaction, or container management, please refer to the `docker-commands.txt` file included in the root directory. It contains a curated list of useful administrative commands.
 
 ---
 

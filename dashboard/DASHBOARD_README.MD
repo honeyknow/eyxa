@@ -97,9 +97,9 @@ This document contains a file-by-file breakdown of the `dashboard/` frontend Rea
 - **Relation with Other Files:** Driven by the backend `/alerts/{id}/evidence` endpoint.
 - **Known Issues:** None.
 
-### 10. `src/components/OmniscientAI.tsx`
-- **File Name:** `OmniscientAI.tsx`
-- **Location:** `./src/components/OmniscientAI.tsx`
+### 10. `src/components/AIAssistant.tsx`
+- **File Name:** `AIAssistant.tsx`
+- **Location:** `./src/components/AIAssistant.tsx`
 - **Purpose:** UI for configuring and triggering the Groq LLM integration.
 - **Simple Explanation:** This is the panel that lets you ask the AI to summarize an alert. It also has a settings page where you can paste your Groq API key and configure exactly how the backend shrinks down logs before sending them to the AI.
 - **Code Explanation:** Manages the API key state, the YAML schema state, and the generated markdown report. When "Analyze" is clicked, it blocks the UI with a spinner until the backend finishes talking to Groq.
@@ -236,8 +236,8 @@ This document contains a file-by-file breakdown of the `dashboard/` frontend Rea
 - **File Name:** `ThreatHunt.tsx`
 - **Location:** `./src/pages/ThreatHunt.tsx`
 - **Purpose:** Primary investigation interface for responding to alerts.
-- **Simple Explanation:** This is the main workspace for a security analyst. It shows the Alert Queue on the left. When you click an alert, the right side opens up with tabs for Evidence (JSON), Timeline (logs before/after the alert), Process Tree (visual parent/child processes), Blast Radius (a large graph of connected events), and Omniscient AI (an AI summary).
-- **Code Explanation:** It manages the `activeTab` state and selectively renders the corresponding sub-component (`BlastRadius`, `OmniscientAI`, `ProcessTree`, `EvidenceDrawer`).
+- **Simple Explanation:** This is the main workspace for a security analyst. It shows the Alert Queue on the left. When you click an alert, the right side opens up with tabs for Evidence (JSON), Timeline (logs before/after the alert), Process Tree (visual parent/child processes), Blast Radius (a large graph of connected events), and AI Assistant (an AI summary).
+- **Code Explanation:** It manages the `activeTab` state and selectively renders the corresponding sub-component (`BlastRadius`, `AIAssistant`, `ProcessTree`, `EvidenceDrawer`).
 - **Technical Explanation:** The 'Timeline' tab implements infinite scrolling in both directions (`older` and `newer`). When an alert is selected, it queries the backend for the surrounding context of that specific event and loads it into the `timelineEvents` state array, keeping it strictly sorted by timestamp.
 - **Relation with Other Files:** Composes many components from `src/components/`.
 - **Known Issues:** None.

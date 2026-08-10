@@ -4,7 +4,7 @@ import AlertQueue from '../components/AlertQueue'
 import EvidenceDrawer from '../components/EvidenceDrawer'
 import ProcessTree from '../components/ProcessTree'
 import BlastRadius from '../components/BlastRadius'
-import OmniscientAI from '../components/OmniscientAI'
+import AIAssistant from '../components/AIAssistant'
 import Button from '../components/Button'
 import { api, type Alert, type TimelineEvent } from '../api/client'
 import { Database, Activity, Clock, GitBranch, Radiation, Play } from 'lucide-react'
@@ -218,7 +218,7 @@ export default function ThreatHunt() {
             active={activeTab === 'ai'}
             className={selectedAlert ? "ai-btn-animated" : ""}
             icon={<Play size={12} fill="currentColor" />}
-          >Omniscient AI</Button>
+          >AI Assistant</Button>
 
           <div style={{ flex: 1 }} />
 
@@ -235,7 +235,7 @@ export default function ThreatHunt() {
             <div className="empty-state" style={{ flex: 1 }}>
               <Activity size={48} color="var(--border-2)" />
               <h3>No Alert Selected</h3>
-              <p>Select an alert from the queue to investigate its evidence and telemetry.</p>
+
             </div>
           ) : activeTab === 'tree' ? (
             selectedAlert?.raw_event_ref
@@ -246,7 +246,7 @@ export default function ThreatHunt() {
               ? <BlastRadius rootGuid={selectedProcessGuid || selectedAlert?.raw_event_ref} rootLabel={selectedAlert?.rule_name} />
               : <div className="empty-state" style={{ flex: 1, padding: 32 }}><Radiation size={32} /><h3>No Process GUID</h3><p>Blast radius requires a source process GUID.</p></div>
           ) : activeTab === 'ai' ? (
-            selectedAlert ? <OmniscientAI alert={selectedAlert} /> : null
+            selectedAlert ? <AIAssistant alert={selectedAlert} /> : null
           ) : activeTab === 'evidence' ? (
             selectedAlert ? <EvidenceDrawer alert={selectedAlert} /> : null
           ) : (

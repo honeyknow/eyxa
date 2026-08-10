@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* ============================================================
@@ -576,7 +577,7 @@ td { padding: 10px 16px; font-size: 13px; color: var(--text-2); }
   box-shadow: var(--shadow-lg) !important;
 }
 
-/* ── Omniscient AI Shining Button ── */
+/* ── AI Assistant Shining Button ── */
 @keyframes simpleShine {
   0% { transform: translateX(-150%) skewX(-20deg); }
   25%, 100% { transform: translateX(150%) skewX(-20deg); }

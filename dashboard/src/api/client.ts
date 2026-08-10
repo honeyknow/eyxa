@@ -178,13 +178,13 @@ export const api = {
   getAlertEvidence: (id: string) => http.get(`/alerts/${id}/evidence`).then(r => r.data),
   triggerTestAlert: () => http.post('/alerts/test').then(r => r.data),
 
-  // Omniscient AI
+  // AI Assistant
   getAiSchema: () => http.get<{ yaml_content: string }>('/config/ai_schema').then(r => r.data),
   getAiSchemaSample: (eventId?: number | string) => http.get<{ sample: string }>(`/config/ai_schema/sample${eventId ? `?event_id=${eventId}` : ''}`).then(r => r.data),
   getAiKey: () => http.get<{ api_key: string, model_id: string }>('/config/ai_key').then(r => r.data),
   saveAiSchema: (yaml_content: string) => http.post('/config/ai_schema', { yaml_content }).then(r => r.data),
   saveAiKey: (api_key: string, model_id: string) => http.post('/config/ai_key', { api_key, model_id }).then(r => r.data),
-  aiInvestigate: (alertId: string | number) => http.post<{ report: string; compressed_event_count: number; raw_event_count: number }>(`/alerts/${alertId}/ai_investigate`).then(r => r.data),
+  aiInvestigate: (alertId: string | number) => http.post<{ analysis: any; raw_event_count: number; compressed_event_count: number; layer1_count: number; layer2_count: number; truncated: boolean }>(`/alerts/${alertId}/ai_investigate`).then(r => r.data),
 
   // Rules
   getRules: () => http.get<{ count: number; rules: SigmaRule[] }>('/rules').then(r => r.data),

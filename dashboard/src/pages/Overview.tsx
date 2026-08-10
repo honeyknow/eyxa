@@ -151,9 +151,7 @@ export default function Overview({ onHostClick, user }: { onHostClick?: (hostId:
             <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.5px' }}>
               Security Overview
             </h1>
-            <p style={{ marginTop: 6, fontSize: 13, color: 'var(--text-3)', maxWidth: 760 }}>
-              Live telemetry, endpoint freshness, and detection state powered by real Windows Sysmon and AMSI events.
-            </p>
+
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 12, marginTop: 16 }}>
@@ -214,9 +212,7 @@ export default function Overview({ onHostClick, user }: { onHostClick?: (hostId:
                   {hosts.length}
                 </span>
               </div>
-              <p style={{ marginTop: 4, fontSize: 12, color: 'var(--text-3)' }}>
-                Real enrolled agents submitting Sysmon telemetry over HTTPS.
-              </p>
+
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -380,7 +376,6 @@ export default function Overview({ onHostClick, user }: { onHostClick?: (hostId:
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
               <div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>Sensor Health & Visibility</div>
-                <div style={{ marginTop: 4, fontSize: 12, color: 'var(--text-3)' }}>Real-time breakdown of incoming event types.</div>
               </div>
               <Database size={15} color="var(--accent)" />
             </div>
@@ -402,7 +397,6 @@ export default function Overview({ onHostClick, user }: { onHostClick?: (hostId:
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
               <div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>Recent Alerts</div>
-                <div style={{ marginTop: 4, fontSize: 12, color: 'var(--text-3)' }}>Real-time hits fired by pySigma engine.</div>
               </div>
               <AlertTriangle size={15} color="var(--crit)" />
             </div>
@@ -410,7 +404,7 @@ export default function Overview({ onHostClick, user }: { onHostClick?: (hostId:
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 14 }}>
               {alerts.length === 0 ? (
                 <div style={{ fontSize: 13, color: 'var(--text-3)', padding: '20px 0', textAlign: 'center' }}>
-                  No detections fired yet
+                  The system is monitoring real telemetry. Alerts appear here when a Sigma rule fires.
                 </div>
               ) : (
                 alerts.map(a => (

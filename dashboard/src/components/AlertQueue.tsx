@@ -188,7 +188,7 @@ export default function AlertQueue({ selectedId, onSelect, limit: propLimit }: P
             <p style={{ fontSize: 12, color: 'var(--text-3)' }}>
               {tab === 'open'
                 ? 'The system is monitoring real telemetry. Alerts appear here when a Sigma rule fires.'
-                : 'Mark alerts as investigated to track your triage progress.'}
+                : ''}
             </p>
             {tab === 'open' && investigatedAlerts.length > 0 && (
               <button
@@ -359,9 +359,9 @@ export default function AlertQueue({ selectedId, onSelect, limit: propLimit }: P
                           {/* Suggestions */}
                           {tagInput && TAG_REC.filter(t => t.includes(tagInput.toLowerCase())).length > 0 && (
                             <div style={{
-                              position: 'absolute', bottom: '100%', left: 0, marginBottom: 4,
+                              position: 'absolute', top: '100%', left: 0, marginTop: 4,
                               background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 6,
-                              padding: 4, zIndex: 20, display: 'flex', flexDirection: 'column', gap: 2, minWidth: 140,
+                              padding: 4, zIndex: 99, display: 'flex', flexDirection: 'column', gap: 2, minWidth: 140,
                               boxShadow: 'var(--shadow-lg)',
                             }}>
                               {TAG_REC.filter(t => t.includes(tagInput.toLowerCase())).map(t => (

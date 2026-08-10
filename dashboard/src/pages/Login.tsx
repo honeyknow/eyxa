@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Shield, Lock, Mail, ArrowRight, Activity } from 'lucide-react'
+import { Shield, Lock, Mail, ArrowRight, Activity, Eye, EyeOff } from 'lucide-react'
 import { api } from '../api/client'
 
 interface LoginProps {
@@ -9,6 +9,7 @@ interface LoginProps {
 export function Login({ onLoginSuccess }: LoginProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -88,7 +89,7 @@ export function Login({ onLoginSuccess }: LoginProps) {
           Eyxa EDR
         </h1>
         <p style={{ fontSize: 14, color: 'var(--text-3)', marginBottom: 32 }}>
-          Enterprise Endpoint Detection & Response
+          AI Powered Threat Hunting
         </p>
 
         <form onSubmit={handleSubmit} style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -125,16 +126,27 @@ export function Login({ onLoginSuccess }: LoginProps) {
               <Lock size={18} />
             </div>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={password}
               onChange={e => setPassword(e.target.value)}
               style={{
-                width: '100%', padding: '14px 16px 14px 44px',
+                width: '100%', padding: '14px 44px 14px 44px',
                 background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)',
                 borderRadius: 12, color: '#fff', fontSize: 14, outline: 'none'
               }}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)',
+                color: 'var(--text-3)', background: 'none', border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0
+              }}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
           </div>
 
           <button
@@ -155,9 +167,6 @@ export function Login({ onLoginSuccess }: LoginProps) {
           </button>
         </form>
 
-        <div style={{ marginTop: 32, fontSize: 12, color: 'var(--text-3)' }}>
-          Eyxa Security Control Plane
-        </div>
       </div>
     </div>
   )
