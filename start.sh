@@ -8,9 +8,12 @@ echo -e "\e[36mStarting Eyxa Docker containers...\e[0m"
 docker-compose up -d --build
 
 # 2. Poll the Cloudflare daemon until it negotiates a tunnel (up to 30 seconds)
+# Use --since with the container's actual start time to avoid reading stale URLs
+# from a previous container lifecycle when the container is restarted.
 echo -e "\e[90mWaiting for Cloudflare to negotiate a secure tunnel...\e[0m"
+TUNNEL_START=$(docker inspect --format='{{.State.StartedAt}}' eyxa-tunnel 2>/dev/null)
 for i in {1..30}; do
-    URL=$(docker logs eyxa-tunnel 2>&1 | grep -o 'https://[a-zA-Z0-9-]*\.trycloudflare\.com' | tail -n 1)
+    URL=$(docker logs eyxa-tunnel --since "${TUNNEL_START}" 2>&1 | grep -o 'https://[a-zA-Z0-9-]*\.trycloudflare\.com' | tail -n 1)
     if [ -n "$URL" ]; then
         break
     fi
