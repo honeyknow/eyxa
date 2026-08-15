@@ -1,0 +1,14 @@
+# Top 5 MITRE ATT&CK Techniques for EDR (2026)
+
+| # | Technique ID | Technique Name                              | Sub-techniques (count) | Short description                                                                                                                                                                      | Official MITRE link                              |
+|---|--------------|---------------------------------------------|------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| 1 | T1055        | Process Injection                           | 12                     | Adversaries inject code or DLLs into other processes to hide execution, steal data, or escalate privileges. Common in fileless/malware-free attacks.                                   | https://attack.mitre.org/techniques/T1055/       |
+| 2 | T1059        | Command and Scripting Interpreter           | 8                      | Use of built-in or installed interpreters (PowerShell, cmd, bash, Python, VBScript, etc.) to run commands and scripts for execution, lateral movement, and automation.                 | https://attack.mitre.org/techniques/T1059/       |
+| 3 | T1555        | Credentials from Password Stores            | 6                      | Extraction of credentials from OS and application password stores (browsers, Credential Manager, keychains, etc.) to enable identity abuse and lateral movement.                       | https://attack.mitre.org/techniques/T1555/       |
+| 4 | T1071        | Application Layer Protocol                  | 4                      | Use of application-layer protocols (HTTP/S, DNS, SMTP, etc.) for command and control (C2), data exfiltration, and blending malicious traffic with legitimate traffic.                  | https://attack.mitre.org/techniques/T1071/       |
+| 5 | T1547        | Boot or Logon Autostart Execution           | 13                     | Configure programs/scripts to run automatically at boot or logon (registry run keys, startup folders, services, etc.) to maintain persistence across reboots.                          | https://attack.mitre.org/techniques/T1547/       |
+
+## Notes
+
+- Sub-technique counts are based on MITRE ATT&CK v19 (Enterprise), April 2026 update.
+- These techniques are prioritized based on 2026 reports: Verizon DBIR, CrowdStrike Global Threat Report, Mandiant M-Trends, Picus Red Report, and Lumu Compromise Report.
