@@ -13,7 +13,7 @@ docker-compose up -d --build
 echo -e "\e[90mWaiting for Cloudflare to negotiate a secure tunnel...\e[0m"
 TUNNEL_START=$(docker inspect --format='{{.State.StartedAt}}' eyxa-tunnel 2>/dev/null)
 for i in {1..30}; do
-    URL=$(docker logs eyxa-tunnel --since "${TUNNEL_START}" 2>&1 | grep -o 'https://[a-zA-Z0-9-]*\.trycloudflare\.com' | tail -n 1)
+    URL=$(docker logs eyxa-tunnel --since "${TUNNEL_START}" 2>&1 | grep -o 'https://[a-zA-Z0-9-]*\.trycloudflare\.com' | grep -v 'api.trycloudflare.com' | tail -n 1)
     if [ -n "$URL" ]; then
         break
     fi
