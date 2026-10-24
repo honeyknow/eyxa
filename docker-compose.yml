@@ -15,7 +15,10 @@ services:
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: eyxa-tunnel
-    command: tunnel --url http://eyxa:8443
+    command: tunnel --url http://eyxa:8443 --protocol http2
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
     depends_on:
       - eyxa
     restart: unless-stopped
